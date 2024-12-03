@@ -1,0 +1,9 @@
+{
+  "imports": {
+    "@std/cli": "jsr:@std/cli@^1.0.7",
+    "@std/fs": "jsr:@std/fs@^1.0.6"
+  },
+  "tasks": {
+    "solve": "deno -A --env-file src/index.ts"
+  }
+}

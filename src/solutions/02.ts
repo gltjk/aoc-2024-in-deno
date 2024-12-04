@@ -1,3 +1,5 @@
+#! NO_COLOR=1 deno task solve --day 2
+
 /**
  * Day 2: Red-Nosed Reports
  * @see https://adventofcode.com/2024/day/2

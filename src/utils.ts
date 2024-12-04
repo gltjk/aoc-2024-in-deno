@@ -28,11 +28,13 @@ async function prepareSolve(day: number, path: string) {
   const title = ((await res.text())
     .match(/<h2>(.*)<\/h2>/)?.[1] ?? "")
     .replace(/^--- | ---$/g, "");
-  return Deno.writeTextFile(path, genSolveTemplate(title, url));
+  return Deno.writeTextFile(path, genSolveTemplate(title, url, day));
 }
 
-function genSolveTemplate(title: string, url: string) {
-  return `/**
+function genSolveTemplate(title: string, url: string, day: number) {
+  return `#! NO_COLOR=1 deno task solve --day ${day}
+
+/**
  * ${title}
  * @see ${url}
  */

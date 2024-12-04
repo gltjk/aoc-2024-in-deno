@@ -1,3 +1,5 @@
+#! NO_COLOR=1 deno task solve --day 3
+
 /**
  * Day 3: Mull It Over
  * @see https://adventofcode.com/2024/day/3

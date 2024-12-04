@@ -1,3 +1,5 @@
+#! NO_COLOR=1 deno task solve --day 1
+
 /**
  * Day 1: Historian Hysteria
  * @see https://adventofcode.com/2024/day/1

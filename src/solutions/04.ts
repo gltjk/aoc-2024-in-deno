@@ -1,3 +1,5 @@
+#! NO_COLOR=1 deno task solve --day 4
+
 /**
  * Day 4: Ceres Search
  * @see https://adventofcode.com/2024/day/4

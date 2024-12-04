@@ -37,7 +37,7 @@ function genSolveTemplate(title: string, url: string) {
  * @see ${url}
  */
 
-export default function (input: string[], level: 1 | 2 = 1) {
+export default function (input: string, level: 1 | 2 = 1) {
 }
 `;
 }

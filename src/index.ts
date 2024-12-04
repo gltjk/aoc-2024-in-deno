@@ -11,8 +11,8 @@ async function main() {
     Deno.exit(1);
   }
 
-  if (!Number.isInteger(day) || day < 1 || day > 31) {
-    console.error("Day must be an integer between 1 and 31");
+  if (!Number.isInteger(day) || day < 1 || day > 25) {
+    console.error("Day must be an integer between 1 and 25");
     Deno.exit(1);
   }
 

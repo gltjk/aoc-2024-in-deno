@@ -4,10 +4,12 @@ import { prepare } from "./utils.ts";
 main();
 
 async function main() {
-  const { day } = parseArgs<{ day: number }>(Deno.args);
+  const { year = 2024, day = 1 } = parseArgs<{ year: number; day: number }>(
+    Deno.args,
+  );
 
-  if (!day) {
-    console.error("Day is required");
+  if (!Number.isInteger(year) || year < 2015 || year > 2024) {
+    console.error("Year must be an integer between 2015 and 2024");
     Deno.exit(1);
   }
 
@@ -17,10 +19,10 @@ async function main() {
   }
 
   try {
-    const input = await prepare(day);
+    const input = await prepare(year, day);
 
     const solve = await import(
-      `./solutions/${String(day).padStart(2, "0")}.ts`
+      `./solutions/${year}/${year}${String(day).padStart(2, "0")}.ts`
     ).then((x) => x.default as (input: string, level?: 1 | 2) => number);
 
     console.log("Answer 1:", solve(input, 1));

@@ -5,7 +5,7 @@
  * @see https://adventofcode.com/2024/day/1
  */
 
-export default function (input: string, level: 1 | 2) {
+export default function solve(input: string, level: 1 | 2) {
   const left: number[] = [];
   const right: number[] = [];
   for (const row of input.split("\n")) {

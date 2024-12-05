@@ -5,7 +5,7 @@
  * @see https://adventofcode.com/2024/day/3
  */
 
-export default function (input: string, level: 1 | 2) {
+export default function solve(input: string, level: 1 | 2) {
   const puzzle = input.split("\n").join("");
   if (level === 1) return mul(puzzle);
   return mul(puzzle.replace(/don't\(\).*?do\(\)/g, ""));

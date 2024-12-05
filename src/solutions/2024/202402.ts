@@ -5,9 +5,9 @@
  * @see https://adventofcode.com/2024/day/2
  */
 
-export default function (input: string, level: 1 | 2) {
+export default function solve(input: string, level: 1 | 2) {
   const data = input.split("\n").map((x) => x.split(/\s+/).map(Number));
-  if (level === 1) data.filter(isSafe).length;
+  if (level === 1) return data.filter(isSafe).length;
   return data.filter((x) => isSafe(x) || removeAnElement(x).some(isSafe))
     .length;
 }

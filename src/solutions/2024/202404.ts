@@ -16,7 +16,7 @@ const directions: [number, number][] = [
   [-1, -1], // northwest
 ];
 
-export default function (input: string, level: 1 | 2 = 1) {
+export default function solve(input: string, level: 1 | 2 = 1) {
   const rows = input.split("\n").map((x) => x.split(""));
   let count = 0;
   for (let i = 0; i < rows.length; i++) {

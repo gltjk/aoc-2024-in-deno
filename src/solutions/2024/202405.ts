@@ -6,7 +6,6 @@
  */
 
 export default function solve(input: string, level: 1 | 2) {
-  // input = exmaple;
   const [part1, part2] = input.split("\n\n");
   const rules = part1.split("\n").map((line) =>
     line.split("|").map(Number) as [number, number]

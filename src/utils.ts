@@ -6,11 +6,14 @@ const BASE_URL = "https://adventofcode.com";
 export async function prepare(year: number, day: number) {
   ensureDirSync(`./inputs/${year}`);
   ensureDirSync(`./src/solutions/${year}`);
+  ensureDirSync(`./src/tests/${year}`);
   const fileName = `${year}${String(day).padStart(2, "0")}`;
   const solvePath = `./src/solutions/${year}/${fileName}.ts`;
   const inputPath = `./inputs/${year}/${fileName}.txt`;
+  const testPath = `./src/tests/${year}/${fileName}.test.ts`;
   if (!(existsSync(solvePath))) await prepareSolve(year, day, solvePath);
   if (!(existsSync(inputPath))) await prepareInput(year, day, inputPath);
+  if (!(existsSync(testPath))) prepareTest(year, day, testPath);
   return Deno.readTextFile(inputPath);
 }
 
@@ -32,6 +35,10 @@ async function prepareSolve(year: number, day: number, path: string) {
   return Deno.writeTextFile(path, genSolveTemplate(title, url, year, day));
 }
 
+function prepareTest(year: number, day: number, path: string) {
+  return Deno.writeTextFile(path, genTestTemplate(year, day));
+}
+
 function genSolveTemplate(
   title: string,
   url: string,
@@ -47,5 +54,19 @@ function genSolveTemplate(
 
 export default function solve(input: string, level: 1 | 2) {
 }
+`;
+}
+
+function genTestTemplate(year: number, day: number) {
+  const id = `${year}${String(day).padStart(2, "0")}`;
+  return `import solve from "../../solutions/${year}/${id}.ts";
+import { assertEquals } from "jsr:@std/assert";
+
+const example = \`\`;
+
+Deno.test("${id}", () => {
+  assertEquals(solve(example, 1), 0);
+  assertEquals(solve(example, 2), 0);
+});
 `;
 }

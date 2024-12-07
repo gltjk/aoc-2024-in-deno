@@ -11,21 +11,23 @@ type Dir = (typeof dirs)[number];
 export default function solve(input: string, level: 1 | 2) {
   const grid = input.split("\n").map((line) => line.split(""));
   const bound = { x: grid[0].length, y: grid.length };
-  const obstacles = iterGrid(grid, (cell) => cell === "#").toArray();
+  const obstaclesArray = iterGrid(grid, (cell) => cell === "#").toArray();
+  const obstacles = Object.fromEntries(
+    obstaclesArray.map((o) => [`${o.x},${o.y}`, true]),
+  );
   const guardCell = iterGrid(grid, (x) => dirs.includes(x as Dir)).next().value;
   if (!guardCell) throw new Error("Guard not found");
   const guard = { ...guardCell, dir: guardCell.cell as Dir };
 
   if (level === 1) return patrol(guard, obstacles, bound, level).visited;
 
-  // TODO: level 2 takes too long, need to optimize
   let loopCount = 0;
   for (const { x, y } of iterGrid(grid)) {
-    if (obstacles.some((o) => o.x === x && o.y === y)) continue;
+    if (obstacles[`${x},${y}`]) continue;
     if (guard.x === x && guard.y === y) continue;
     const { loop } = patrol(
       { ...guard },
-      [...obstacles, { x, y }],
+      { ...obstacles, [`${x},${y}`]: true },
       bound,
       level,
     );
@@ -47,7 +49,7 @@ function* iterGrid(
 
 function patrol(
   guard: { x: number; y: number; dir: Dir },
-  obstacles: { x: number; y: number }[],
+  obstacles: Record<string, boolean>,
   bound: { x: number; y: number },
   level: 1 | 2,
 ) {
@@ -84,14 +86,10 @@ function patrol(
 
 function hasObstacleAhead(
   { x, y, dir }: { x: number; y: number; dir: Dir },
-  obstacles: { x: number; y: number }[],
+  obstacles: Record<string, boolean>,
 ) {
-  return obstacles.some((o) =>
-    ({
-      "^": o.x === x && o.y === y - 1,
-      ">": o.y === y && o.x === x + 1,
-      "v": o.x === x && o.y === y + 1,
-      "<": o.y === y && o.x === x - 1,
-    })[dir]
-  );
+  if (dir === "^") return obstacles[`${x},${y - 1}`];
+  if (dir === ">") return obstacles[`${x + 1},${y}`];
+  if (dir === "v") return obstacles[`${x},${y + 1}`];
+  return obstacles[`${x - 1},${y}`];
 }

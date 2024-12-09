@@ -33,26 +33,36 @@ A collection of solutions for Advent of Code 2024 implemented using Deno and Typ
 
 ## Usage
 
-Run a solution for a specific day:
+This repository provides a set of commands to test your solutions on example inputs and solve the puzzle on the actual input.
 
 ```bash
-deno task solve --day <day_number>
+deno task test --day <day_number> --year <year_number>
+deno task solve --day <day_number> --year <year_number>
 ```
 
-For example, to run day 1 solution:
+For example, to test and solve day 1 for 2024:
 
 ```bash
-deno task solve --day 1
+deno task test --day 1 --year 2024
+deno task solve --day 1 --year 2024
 ```
 
-If the solution for the specified day doesn't exist yet, the command will automatically:
+The default day is 1 and the default year is 2024 if not specified.
 
-1. Generate a new solution template file
-2. Download the puzzle input for that day
-3. Create the basic structure for you to implement your solution
+The commands will automatically:
+
+1. Generate a new solution template file (if it doesn't exist)
+2. Download the puzzle input for that day (if it doesn't exist)
+3. Generate a new test file (if it doesn't exist)
 
 This allows you to quickly start working on new daily challenges without manual setup.
 
+What you need to do is:
+
+1. Implement the solution in the solution file
+2. Implement the test cases in the test file
+3. Run the `test` command to test your solution on the example input
+4. Run the `solve` command to solve the puzzle on the actual input
 
 ## License
 

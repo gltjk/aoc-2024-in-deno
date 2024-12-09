@@ -1,3 +1,5 @@
+#! NO_COLOR=1 deno task test --day 8 --year 2024
+
 import solve from "../../solutions/2024/202408.ts";
 import { assertEquals } from "jsr:@std/assert";
 

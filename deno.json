@@ -3,10 +3,12 @@
     "@std/assert": "jsr:@std/assert@^1.0.8",
     "@std/cli": "jsr:@std/cli@^1.0.7",
     "@std/fs": "jsr:@std/fs@^1.0.6",
-    "@std/path": "jsr:@std/path@^1.0.8"
+    "@std/path": "jsr:@std/path@^1.0.8",
+    "helpers": "./src/helpers/index.ts"
   },
   "tasks": {
     "solve": "deno -A --env-file src/index.ts solve",
-    "test": "deno -A --env-file src/index.ts test"
+    "test": "deno -A --env-file src/index.ts test",
+    "test-helpers": "deno test src/tests/helpers"
   }
 }

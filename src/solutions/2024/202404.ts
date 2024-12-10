@@ -5,52 +5,35 @@
  * @see https://adventofcode.com/2024/day/4
  */
 
-const directions: [number, number][] = [
-  [1, 0], // east
-  [0, 1], // south
-  [-1, 0], // west
-  [0, -1], // north
-  [1, 1], // southeast
-  [1, -1], // northeast
-  [-1, 1], // southwest
-  [-1, -1], // northwest
-];
+import { directions, Grid, Vector } from "helpers";
 
 export default function solve(input: string, level: 1 | 2 = 1) {
-  const rows = input.split("\n").map((x) => x.split(""));
+  const grid = Grid.from(input);
   let count = 0;
-  for (let i = 0; i < rows.length; i++) {
-    for (let j = 0; j < rows[i].length; j++) {
-      if (level === 1) {
-        for (const dir of directions) {
-          if (go(rows, [j, i], dir, 4) === "XMAS") count += 1;
-        }
-      } else {
-        const forwardSlash = go(rows, [j + 1, i - 1], [-1, 1], 3);
-        const backslash = go(rows, [j - 1, i - 1], [1, 1], 3);
-        if (forwardSlash !== "MAS" && forwardSlash !== "SAM") continue;
-        if (backslash !== "MAS" && backslash !== "SAM") continue;
-        count += 1;
+  for (const { loc } of grid.iter()) {
+    if (level === 1) {
+      for (const dir of Object.values(directions)) {
+        if (go(grid, loc, dir, 4) === "XMAS") count += 1;
       }
+    } else {
+      const forwardSlash = go(grid, loc.add(directions.NE), directions.SW, 3);
+      const backslash = go(grid, loc.add(directions.NW), directions.SE, 3);
+      if (forwardSlash !== "MAS" && forwardSlash !== "SAM") continue;
+      if (backslash !== "MAS" && backslash !== "SAM") continue;
+      count += 1;
     }
   }
   return count;
 }
 
-function go(
-  rows: string[][],
-  from: [number, number],
-  dir: [number, number],
-  distance: number,
-) {
-  const path = [];
-  const location = { ...from };
+function go(grid: Grid<string>, from: Vector, dir: Vector, distance: number) {
+  const path: string[] = [];
+  let location = Vector.from(from);
   for (let i = 0; i < distance; i++) {
-    const here = rows?.[location[1]]?.[location[0]];
-    if (!here) break;
+    const here = grid.get(location);
+    if (Grid.isOutOfBound(here)) break;
     path.push(here);
-    location[0] += dir[0];
-    location[1] += dir[1];
+    location = location.add(dir);
   }
   return path.join("");
 }

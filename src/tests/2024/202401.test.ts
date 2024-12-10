@@ -1,7 +1,7 @@
 #! NO_COLOR=1 deno task test --day 1 --year 2024
 
 import solve from "../../solutions/2024/202401.ts";
-import { assertEquals } from "jsr:@std/assert";
+import { assertEquals } from "@std/assert";
 
 const example = `3   4
 4   3

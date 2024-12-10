@@ -70,7 +70,7 @@ function genTestTemplate({ year, day }: Day) {
   return `#! NO_COLOR=1 deno task test --day ${day} --year ${year}
 
 import solve from "../../solutions/${year}/${id}.ts";
-import { assertEquals } from "jsr:@std/assert";
+import { assertEquals } from "@std/assert";
 
 const example = \`\`;
 

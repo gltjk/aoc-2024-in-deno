@@ -4,8 +4,17 @@ export type VectorLike = { x: number; y: number };
 export class Vector {
   constructor(public x: number, public y: number) {}
 
-  static from(vector: VectorLike) {
+  static from(vector: VectorLike | string) {
+    if (typeof vector === "string") {
+      const [x, y] = vector.split(",").map(Number);
+      return new Vector(x, y);
+    }
     return new Vector(vector.x, vector.y);
+  }
+
+  static unique(vectors: Iterable<VectorLike>) {
+    return new Set([...vectors].map((x) => Vector.prototype.toString.call(x)))
+      .values().map(Vector.from);
   }
 
   toString() {
@@ -59,15 +68,25 @@ export const DOWN = SOUTH;
 export const LEFT = WEST;
 export const RIGHT = EAST;
 
-export const directions = {
+export const dirs = {
+  N: NORTH,
   E: EAST,
   S: SOUTH,
   W: WEST,
+};
+
+export const directions = {
   N: NORTH,
-  SE: SOUTHEAST,
   NE: NORTHEAST,
+  E: EAST,
+  SE: SOUTHEAST,
+  S: SOUTH,
   SW: SOUTHWEST,
+  W: WEST,
   NW: NORTHWEST,
 };
 
 // console.log(UP.rotate(Math.PI / 2).equals(RIGHT)); //.rotate(Math.PI / 2));
+// console.log(
+//   Vector.unique([new Vector(1, 1), new Vector(1, 1), new Vector(2, 2)]),
+// );

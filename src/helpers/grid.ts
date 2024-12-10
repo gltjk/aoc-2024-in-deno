@@ -1,4 +1,4 @@
-import { Vector, type VectorLike } from "./vector.ts";
+import { directions, dirs, Vector, type VectorLike } from "./vector.ts";
 
 const OutOfBound = Symbol("OutOfBound");
 
@@ -32,5 +32,13 @@ export class Grid<T> {
 
   has({ x, y }: VectorLike) {
     return x >= 0 && x < this.size.x && y >= 0 && y < this.size.y;
+  }
+
+  *neighbors(v: VectorLike, all = false) {
+    for (const dir of Object.values(all ? directions : dirs)) {
+      const loc = Vector.from(v).add(dir);
+      const cell = this.get(loc);
+      if (!Grid.isOutOfBound(cell)) yield { loc, cell };
+    }
   }
 }

@@ -1,3 +1,5 @@
+#! NO_COLOR=1 deno test src/tests/helpers/helpers.test.ts
+
 import { iterCombinations } from "helpers";
 import { assertEquals } from "@std/assert";
 

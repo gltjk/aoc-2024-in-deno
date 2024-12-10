@@ -1,3 +1,5 @@
+#! NO_COLOR=1 deno test src/tests/helpers/vector.test.ts
+
 import { directions, Vector } from "helpers";
 import { assertEquals } from "@std/assert";
 
@@ -50,4 +52,21 @@ Deno.test("Direction constants are correct", () => {
   assertEquals(directions.NE, new Vector(1, -1));
   assertEquals(directions.SW, new Vector(-1, 1));
   assertEquals(directions.NW, new Vector(-1, -1));
+});
+
+Deno.test("Vector.unique removes duplicate vectors using string representation", () => {
+  const vectors = [
+    new Vector(1, 1),
+    new Vector(1, 1),
+    new Vector(2, 2),
+    { x: 1, y: 1 },
+  ];
+
+  const unique = Vector.unique(vectors).toArray();
+  assertEquals(unique, [new Vector(1, 1), new Vector(2, 2)]);
+});
+
+Deno.test("Vector.unique works with empty iterable", () => {
+  const unique = Vector.unique([]).toArray();
+  assertEquals(unique, []);
 });

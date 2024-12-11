@@ -1,43 +1,28 @@
 #! NO_COLOR=1 deno test src/tests/helpers/helpers.test.ts
 
-import { iterCombinations } from "helpers";
+import { iterCombinations, stringToNums } from "helpers";
 import { assertEquals } from "@std/assert";
 
-Deno.test("iterCombinations - empty array", () => {
-  const array: number[] = [];
-  const result = iterCombinations(array, 2).toArray();
-  assertEquals(result, []);
-});
-
-Deno.test("iterCombinations - size is 0", () => {
-  const array = [1, 2, 3];
-  const result = iterCombinations(array, 0).toArray();
-  assertEquals(result, []);
-});
-
-Deno.test("iterCombinations - size is 1", () => {
-  const array = [1, 2, 3];
-  const result = iterCombinations(array, 1).toArray();
-  assertEquals(result, [[1], [2], [3]]);
-});
-
-Deno.test("iterCombinations - size is 2", () => {
+Deno.test("iterCombinations - normal cases", () => {
   const array = [1, 2, 3, 4];
-  const result = iterCombinations(array, 2).toArray();
+  assertEquals(iterCombinations(array, 1).toArray(), [[1], [2], [3], [4]]);
   assertEquals(
-    result,
+    iterCombinations(array, 2).toArray(),
     [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]],
   );
 });
 
-Deno.test("iterCombinations - size is equal to array length", () => {
-  const array = [1, 2, 3];
-  const result = iterCombinations(array, 3).toArray();
-  assertEquals(result, [[1, 2, 3]]);
+Deno.test("iterCombinations - edge cases", () => {
+  assertEquals(iterCombinations([], 2).toArray(), []);
+  assertEquals(iterCombinations([1, 2, 3], 0).toArray(), []);
+  assertEquals(iterCombinations([1, 2, 3], 5).toArray(), [[1, 2, 3]]);
 });
 
-Deno.test("iterCombinations - size is greater than array length", () => {
-  const array = [1, 2, 3];
-  const result = iterCombinations(array, 5).toArray();
-  assertEquals(result, [[1, 2, 3]]);
+Deno.test("stringToNums - various inputs", () => {
+  assertEquals(stringToNums("42"), [42]);
+  assertEquals(stringToNums("1 2 3"), [1, 2, 3]);
+  assertEquals(stringToNums("10   20    30"), [10, 20, 30]);
+  assertEquals(stringToNums("  1 2 3  "), [1, 2, 3]);
+  assertEquals(stringToNums(""), []);
+  assertEquals(stringToNums("   "), []);
 });

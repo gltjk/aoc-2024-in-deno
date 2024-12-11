@@ -16,3 +16,9 @@ export function* iterCombinations<T>(
     }
   }
 }
+
+export function stringToNums(input: string) {
+  const trimmed = input.trim();
+  if (!trimmed) return [] as number[];
+  return trimmed.split(/\s+/).map(Number);
+}

@@ -5,36 +5,32 @@
  * @see https://adventofcode.com/2024/day/11
  */
 
-import { stringToNums } from "helpers";
-
-function addCount(countMap: Map<number, number>, stone: number, count: number) {
-  countMap.set(stone, (countMap.get(stone) || 0) + count);
-}
+import { MapEx, stringToNums } from "helpers";
 
 export default function solve(input: string, level: 1 | 2) {
   const blink = level === 1 ? 25 : 75;
 
-  let countMap = new Map<number, number>();
-
-  for (const stone of stringToNums(input)) {
-    addCount(countMap, stone, 1);
-  }
+  let countMap = new MapEx(0, stringToNums(input).map((x) => [x, 1]));
 
   for (let i = 0; i < blink; i++) {
-    const newCountMap = new Map<number, number>();
+    const newCountMap = new MapEx<number, number>(0);
 
     for (const [stone, count] of countMap.entries()) {
-      if (stone === 0) {
-        addCount(newCountMap, 1, count);
+      if (!stone) {
+        newCountMap.update(1, (x) => x + count);
         continue;
       }
-      const len = stone.toString().length;
-      if (len % 2 === 0) {
-        addCount(newCountMap, +stone.toString().slice(0, len / 2), count);
-        addCount(newCountMap, +stone.toString().slice(len / 2), count);
-      } else {
-        addCount(newCountMap, stone * 2024, count);
+
+      const str = stone.toString();
+
+      if (str.length % 2) {
+        newCountMap.update(stone * 2024, (x) => x + count);
+        continue;
       }
+
+      const half = str.length / 2;
+      newCountMap.update(+str.slice(0, half), (x) => x + count);
+      newCountMap.update(+str.slice(half), (x) => x + count);
     }
 
     countMap = newCountMap;

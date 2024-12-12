@@ -22,6 +22,11 @@ export class Grid<T> {
     return this.array[y][x];
   }
 
+  set({ x, y }: VectorLike, value: T) {
+    if (!this.has({ x, y })) return;
+    this.array[y][x] = value;
+  }
+
   *iter() {
     for (const [y, line] of this.array.entries()) {
       for (const [x, cell] of line.entries()) {

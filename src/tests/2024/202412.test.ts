@@ -3,7 +3,7 @@
 import solve from "../../solutions/2024/202412.ts";
 import { assertEquals } from "@std/assert";
 
-const example = `RRRRIICCFF
+const example1 = `RRRRIICCFF
 RRRRIICCCF
 VVRRRCCFFF
 VVRCCCJFFF
@@ -14,7 +14,15 @@ MIIIIIJJEE
 MIIISIJEEE
 MMMISSJEEE`;
 
+const example2 = `AAAAAA
+AAABBA
+AAABBA
+ABBAAA
+ABBAAA
+AAAAAA`;
+
 Deno.test("202412", () => {
-  assertEquals(solve(example, 1), 1930);
-  // assertEquals(solve(example, 2), 1206);
+  assertEquals(solve(example1, 1), 1930);
+  assertEquals(solve(example1, 2), 1206);
+  assertEquals(solve(example2, 2), 368);
 });

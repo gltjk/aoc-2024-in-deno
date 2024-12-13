@@ -30,13 +30,24 @@ export class Grid<T> {
   *iter() {
     for (const [y, line] of this.array.entries()) {
       for (const [x, cell] of line.entries()) {
-        yield { loc: new Vector(x, y), cell };
+        yield { loc: new Vector(x, y), cell } as Cell<T>;
       }
     }
   }
 
   has({ x, y }: VectorLike) {
     return x >= 0 && x < this.size.x && y >= 0 && y < this.size.y;
+  }
+
+  static edges(v: VectorLike): Edge[] {
+    const p0 = Vector.from(v);
+    const p = [p0, p0.add(dirs.E), p0.add(dirs.S), p0.add(directions.SE)];
+    return [
+      { from: p[0], to: p[1] },
+      { from: p[0], to: p[2] },
+      { from: p[1], to: p[3] },
+      { from: p[2], to: p[3] },
+    ];
   }
 
   *neighbors(v: VectorLike, all = false) {
@@ -47,3 +58,6 @@ export class Grid<T> {
     }
   }
 }
+
+export type Edge = { from: Vector; to: Vector };
+export type Cell<T> = { loc: Vector; cell: T };

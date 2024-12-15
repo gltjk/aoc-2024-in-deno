@@ -1,7 +1,7 @@
 #! NO_COLOR=1 deno test src/tests/helpers/vector.test.ts
 
-import { directions, Vector } from "helpers";
-import { assertEquals } from "@std/assert";
+import { directions, mapDir, Vector } from "helpers";
+import { assertEquals, assertThrows } from "@std/assert";
 
 Deno.test("Vector.from creates a new Vector from VectorLike", () => {
   const vectorLike = { x: 3, y: 4 };
@@ -69,4 +69,19 @@ Deno.test("Vector.unique removes duplicate vectors using string representation",
 Deno.test("Vector.unique works with empty iterable", () => {
   const unique = Vector.unique([]).toArray();
   assertEquals(unique, []);
+});
+
+Deno.test("mapDir converts direction characters to vectors", () => {
+  assertEquals(mapDir("^"), new Vector(0, -1)); // UP
+  assertEquals(mapDir(">"), new Vector(1, 0)); // RIGHT
+  assertEquals(mapDir("v"), new Vector(0, 1)); // DOWN
+  assertEquals(mapDir("<"), new Vector(-1, 0)); // LEFT
+});
+
+Deno.test("mapDir throws error for invalid direction", () => {
+  assertThrows(
+    () => mapDir("X"),
+    Error,
+    "Invalid direction: X",
+  );
 });

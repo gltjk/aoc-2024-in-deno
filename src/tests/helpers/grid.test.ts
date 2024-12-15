@@ -77,3 +77,23 @@ Deno.test("Grid.neighbors handles edge positions correctly", () => {
   ];
   assertEquals(cornerNeighbors, expected);
 });
+
+Deno.test("Grid.copy copies value from one position to another", () => {
+  const input = "ab\ncd";
+  const grid = Grid.from(input);
+
+  // normal copy
+  grid.copy({ x: 0, y: 0 }, { x: 1, y: 1 });
+  assertEquals(grid.array, [["a", "b"], ["c", "a"]]);
+
+  // out of bound copy
+  grid.copy({ x: 2, y: 2 }, { x: 0, y: 0 });
+  assertEquals(grid.array, [["a", "b"], ["c", "a"]]);
+});
+
+Deno.test("Grid.toString returns string representation of grid", () => {
+  const input = "ab\ncd";
+  const grid = Grid.from(input);
+
+  assertEquals(grid.toString(), "ab\ncd");
+});

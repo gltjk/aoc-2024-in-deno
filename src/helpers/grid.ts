@@ -17,6 +17,16 @@ export class Grid<T> {
     return { x: this.array[0].length, y: this.array.length };
   }
 
+  toString() {
+    return this.array.map((line) => line.join("")).join("\n");
+  }
+
+  copy(from: VectorLike, to: VectorLike) {
+    const value = this.get(from);
+    if (Grid.isOutOfBound(value)) return;
+    this.set(to, value);
+  }
+
   get({ x, y }: VectorLike) {
     if (!this.has({ x, y })) return OutOfBound;
     return this.array[y][x];

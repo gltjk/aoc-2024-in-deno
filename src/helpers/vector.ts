@@ -1,4 +1,3 @@
-#! deno
 export type VectorLike = { x: number; y: number };
 
 export class Vector {
@@ -42,6 +41,10 @@ export class Vector {
       this.x * cos(angle) - this.y * sin(angle),
       this.x * sin(angle) + this.y * cos(angle),
     );
+  }
+
+  product(vector: VectorLike) {
+    return this.x * vector.x + this.y * vector.y;
   }
 }
 
@@ -90,3 +93,10 @@ export const directions = {
 // console.log(
 //   Vector.unique([new Vector(1, 1), new Vector(1, 1), new Vector(2, 2)]),
 // );
+
+const dirMap = { "^": UP, ">": RIGHT, "v": DOWN, "<": LEFT } as const;
+
+export function mapDir(dir: string) {
+  if (!(dir in dirMap)) throw new Error(`Invalid direction: ${dir}`);
+  return dirMap[dir as keyof typeof dirMap];
+}

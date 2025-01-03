@@ -5,8 +5,16 @@ const OutOfBound = Symbol("OutOfBound");
 export class Grid<T> {
   constructor(public readonly array: T[][]) {}
 
-  static from(input: string) {
-    return new Grid(input.split("\n").map((line) => line.split("")));
+  static from<U>(input: string): Grid<string>;
+  static from<U>(input: { x: number; y: number; cell: U }): Grid<U>;
+  static from<U>(
+    input: string | { x: number; y: number; cell: U },
+  ): Grid<string | U> {
+    if (typeof input === "string") {
+      return new Grid(input.split("\n").map((line) => line.split("")));
+    }
+    const { x, y, cell } = input;
+    return new Grid(Array(y).fill(0).map(() => Array(x).fill(cell)));
   }
 
   static isOutOfBound<T>(value: T | symbol): value is symbol {
@@ -66,6 +74,28 @@ export class Grid<T> {
       const cell = this.get(loc);
       if (!Grid.isOutOfBound(cell)) yield { loc, cell };
     }
+  }
+
+  dijkstra(
+    start: Vector,
+    isGoal: (loc: Vector) => boolean,
+    isBlocked: (value: T) => boolean,
+  ): number {
+    const visited = Grid.from({ ...this.size, cell: false });
+    const queue: { loc: Vector; distance: number }[] = [
+      { loc: start, distance: 0 },
+    ];
+    while (queue.length) {
+      const { loc, distance } = queue.shift()!;
+      if (isGoal(loc)) return distance;
+      if (visited.get(loc)) continue;
+      visited.set(loc, true);
+      for (const { loc: neighbor, cell } of this.neighbors(loc)) {
+        if (isBlocked(cell) || visited.get(neighbor)) continue;
+        queue.push({ loc: neighbor, distance: distance + 1 });
+      }
+    }
+    return -1;
   }
 }
 

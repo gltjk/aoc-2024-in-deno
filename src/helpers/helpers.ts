@@ -22,3 +22,14 @@ export function stringToNums(input: string) {
   if (!trimmed) return [] as number[];
   return trimmed.split(/\s+/).map(Number);
 }
+
+export function cache<T, U>(f: (...args: T[]) => U) {
+  const cache = new Map<string, U>();
+  return (...args: T[]) => {
+    const key = JSON.stringify(args);
+    if (cache.has(key)) return cache.get(key)!;
+    const result = f(...args);
+    cache.set(key, result);
+    return result;
+  };
+}

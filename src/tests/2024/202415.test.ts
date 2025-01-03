@@ -49,5 +49,6 @@ const example2 = `#######
 Deno.test("202415", () => {
   assertEquals(solve(example, 1), 10092);
   assertEquals(solve(example1, 1), 2028);
-  // assertEquals(solve(example, 2), 9021);
+  assertEquals(solve(example, 2), 9021);
+  assertEquals(solve(example2, 2), 618);
 });
